@@ -1,53 +1,51 @@
-//
-//  HomeVIew.swift
-//  WallpaperAddict
-//
-//  Created by Jason Shannon on 2024-05-30.
-//
-
-
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject var viewModel = ImageViewModel()
-    @State private var searchQuery = ""
+    @StateObject private var viewModel = HomeViewModel()
+    @EnvironmentObject var colorSchemeViewModel: ColorSchemeViewModel
 
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    TextField("Search wallpapers", text: $searchQuery, onCommit: {
-                        viewModel.searchImages(query: searchQuery)
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-
-                    Button(action: {
-                        viewModel.searchImages(query: searchQuery)
-                    }) {
-                        Text("Search")
-                    }
-                    .padding(.trailing)
-                }
-                
-                ScrollView {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
-                        ForEach(viewModel.latestImages) { image in
-                            NavigationLink(destination: ImageDetailView(image: image)) {
-                                AsyncImage(url: URL(string: image.url))
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 100, height: 100)
-                                    .clipped()
-                            }
-                        }
-                    }
-                    .padding()
+                SearchBar(text: $viewModel.searchQuery)
+                NavigationLink(destination: CategoriesView()) {
+                    Text("View Categories")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
                 }
             }
-            .navigationTitle("Latest Wallpapers")
-            .onAppear {
-                viewModel.fetchLatestImages()
-            }
+           
         }
+        
     }
+//    n
+//    var body: some View {
+//            NavigationView {
+//                TabView {
+//                    HomeView()
+//                        .tabItem {
+//                            Image(systemName: "house")
+//                            Text("Home")
+//                        }
+//
+//                        .tabItem {
+//                            Image(systemName: "list.bullet")
+//                            Text("Categories")
+//                        }
+//
+//                }
+//                .navigationTitle("Wallpaper App")
+//                .toolbar {
+//                    ToolbarItem(placement: .navigationBarTrailing) {
+//                        Button(action: {
+//                            colorSchemeViewModel.toggleColorScheme()
+//                        }) {
+//                            Image(systemName: colorSchemeViewModel.colorScheme == .light ? "moon.fill" : "sun.max.fill")
+//                        }
+//                    }
+//                }
+//            }
+//        }
 }

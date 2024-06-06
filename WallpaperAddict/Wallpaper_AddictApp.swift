@@ -4,32 +4,17 @@
 //
 //  Created by Jason Shannon on 2024-05-30.
 //
-
 import SwiftUI
 
 @main
-struct Wallpaper_AddictApp: App {
+struct WallpaperAppApp: App {
+    @StateObject private var colorSchemeViewModel = ColorSchemeViewModel()
+
     var body: some Scene {
         WindowGroup {
-            TabView {
-                HomeView()
-                    .tabItem {
-                        Image(systemName: "house")
-                        Text("Home")
-                    }
-
-                CategoriesView()
-                    .tabItem {
-                        Image(systemName: "list.bullet")
-                        Text("Categories")
-                    }
-                
-                UploadImageView()
-                                   .tabItem {
-                                       Image(systemName: "square.and.arrow.up")
-                                       Text("Upload")
-                                   }
-            }
+            ContentView()
+                .environmentObject(colorSchemeViewModel)
+                .preferredColorScheme(colorSchemeViewModel.colorScheme)
         }
     }
 }
