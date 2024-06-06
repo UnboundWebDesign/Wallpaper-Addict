@@ -1,19 +1,20 @@
 import SwiftUI
 
 struct CategoriesView: View {
-    @ObservedObject var viewModel = ImageViewModel()
-
     var body: some View {
         NavigationView {
-            List(viewModel.categories) { category in
-                NavigationLink(destination: CategoryImagesView(categoryId: category.id, categoryName: category.name)) {
-                    Text(category.name)
-                }
+            List {
+                Text("Category 1")
+                Text("Category 2")
+                Text("Category 3")
             }
             .navigationTitle("Categories")
-            .onAppear {
-                viewModel.fetchCategories()
-            }
         }
+    }
+}
+
+struct CategoriesView_Previews: PreviewProvider {
+    static var previews: some View {
+        CategoriesView()
     }
 }
